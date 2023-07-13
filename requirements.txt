@@ -1,1 +1,2 @@
 -r requirements/production.txt
+python==3.10.7
