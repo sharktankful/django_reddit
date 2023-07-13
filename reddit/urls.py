@@ -18,10 +18,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path(r'^$', views.frontpage, name="frontpage"),
-    path(r'^comments/(?P<thread_id>[0-9]+)$', views.comments, name="thread"),
-    path(r'^submit/$', views.submit, name="submit"),
-    path(r'^post/comment/$', views.post_comment, name="post_comment"),
-    path(r'^vote/$', views.vote, name="vote"),
+    path('', views.frontpage, name="frontpage"),
+    path('comments/<int:thread_id>', views.comments, name="thread"),
+    path('submit/', views.submit, name="submit"),
+    path('post/comment/', views.post_comment, name="post_comment"),
+    path('vote/', views.vote, name="vote"),
 
 ]

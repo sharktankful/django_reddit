@@ -20,9 +20,10 @@ from django.conf import settings
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path(settings.ADMIN_URL, admin.site.urls),
+    path('admin/', admin.site.urls),
     # url(r'^$', TemplateView.as_view(template_name='index.html'), name="home"),
     # url(r'^users/', include('users.urls')),
     path('', include("reddit.urls")),
-    path('', include("users.urls"))
+    path('', include("users.urls")),
+    path('djdt/', include('debug_toolbar.urls'))
 ]
