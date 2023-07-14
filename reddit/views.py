@@ -77,7 +77,7 @@ def comments(request, thread_id=None):
 
     thread_comments = Comment.objects.filter(submission=this_submission)
 
-    if request.user.is_authenticated():
+    if request.user is not None:
         try:
             reddit_user = RedditUser.objects.get(user=request.user)
         except RedditUser.DoesNotExist:
@@ -247,10 +247,24 @@ def submit(request):
         if submission_form.is_valid():
             submission = submission_form.save(commit=False)
             submission.generate_html()
-            user = User.objects.get(username=request.user)
-            redditUser = RedditUser.objects.get(user=user)
-            submission.author = redditUser
-            submission.author_name = user.username
+
+            # Check if the user is logged in
+            if request.user.is_authenticated:
+                user = request.user
+                
+                # Check if the username is in the database
+                try:
+                    redditUser = RedditUser.objects.get_or_create(user=user)
+                except RedditUser.DoesNotExist:
+                    user = User.objects.create_user(
+                        username=submission.author_name,
+                        password='password'
+                    )
+                    redditUser = RedditUser.objects.create(user=user)
+
+                submission.author = redditUser[0]
+                submission.author_name = user.username
+
             submission.save()
             messages.success(request, 'Submission created')
             return redirect('/comments/{}'.format(submission.id))
