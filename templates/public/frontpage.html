@@ -23,15 +23,24 @@
                     </div>
                 </td>
                 <td class="info-container">
-                    <a class="thread-title" href="{{ submission.linked_url }}">{{ submission.title }}</a>
-                    <br>
-                    <h6 class="thread-info">submitted {{ submission.timestamp|naturaltime }} by <a
-                            href="/user/{{ submission.author_name }}">{{ submission.author_name }}</a></h6>
-
-                    <ul class="buttons">
-                        <li><a href="{{ submission.comments_url }}">{{ submission.comment_count }} comments</a></li>
-                    </ul>
-
+                    <a class="thread-title" href="{% url 'thread' submission.id %}">{{ submission.title }}</a>
+                    
+                    <div>
+                        {% if submission.url %}
+                            <br>
+                            <a href="{{ submission.linked_url }}">{{ submission.url }}</a>
+                        {% endif %}
+                        <br>
+                        <h6 class="thread-info">
+    
+    
+                            submitted {{ submission.timestamp|naturaltime }} by <a
+                                href="/user/{{ submission.author_name }}">{{ submission.author_name }}</a></h6>
+    
+                        <ul class="buttons">
+                            <li><a href="{{ submission.comments_url }}">{{ submission.comment_count }} comments</a></li>
+                        </ul>
+                    </div>
 
                 </td>
             </tr>

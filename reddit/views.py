@@ -6,6 +6,7 @@ from django.http import JsonResponse, HttpResponseBadRequest, Http404, \
     HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaulttags import register
+from django.urls import reverse
 
 from reddit.forms import SubmissionForm
 from reddit.models import Submission, Comment, Vote
@@ -105,6 +106,7 @@ def comments(request, thread_id=None):
 
             for vote in user_thread_votes:
                 comment_votes[vote.vote_object.id] = vote.value
+
         except:
             pass
 
