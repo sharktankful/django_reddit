@@ -10,6 +10,7 @@ from django_reddit.utils.model_utils import ContentTypeAware, MttpContentTypeAwa
 
 
 class Submission(ContentTypeAware):
+    id = models.BigAutoField(primary_key=True)
     author_name = models.CharField(null=False, max_length=12)
     author = models.ForeignKey('users.RedditUser', on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
@@ -43,6 +44,7 @@ class Submission(ContentTypeAware):
 
 
 class Comment(MttpContentTypeAware):
+    id = models.BigAutoField(primary_key=True)
     author_name = models.CharField(null=False, max_length=12)
     author = models.ForeignKey('users.RedditUser', on_delete=models.CASCADE)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
@@ -100,6 +102,7 @@ class Comment(MttpContentTypeAware):
 
 
 class Vote(models.Model):
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey('users.RedditUser', on_delete=models.CASCADE)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
     vote_object_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)

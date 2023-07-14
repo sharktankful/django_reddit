@@ -46,7 +46,7 @@ def frontpage(request):
 
     submission_votes = {}
 
-    if request.user.is_authenticated():
+    if request.user is not None:
         for submission in submissions:
             try:
                 vote = Vote.objects.get(

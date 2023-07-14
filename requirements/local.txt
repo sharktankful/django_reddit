@@ -1,2 +1,0 @@
-# Local development dependencies
-django-debug-toolbar==4.1.0
