@@ -87,21 +87,25 @@
         </div>
     </div>
     <div>
-        <h3><strong>Submissions</strong></h3>
-        {% for submission in submissions %}
-            <a href="{% url 'thread' submission.id %}"> {{ submission.title }} </a>
-            <br>
-            submitted {{ submission.timestamp|naturaltime }}
-            <br>
-        {% endfor %}
 
-        <h3><strong>Comments</strong></h3>
-        {% for comment in comments %}
-            <p>{{ comment.raw_comment }}</p>
-            posted {{ comment.timestamp|naturaltime }}
-        {% endfor %}
+        {% if request.user == profile.user %}
 
+            <h3><strong>Submissions</strong></h3>
+            {% for submission in submissions %}
+                    <a href="{% url 'thread' submission.id %}"> {{ submission.title }} </a>
+                    <br>
+                    submitted {{ submission.timestamp|naturaltime }}
+                    <br>
+            {% endfor %}
 
+            <h3><strong>Comments</strong></h3>
+            {% for comment in comments %}
+                    <p>{{ comment.raw_comment }}</p>
+                    posted {{ comment.timestamp|naturaltime }}
+            {% endfor %}
+        {% endif %}
+
+        
     </div>
 
 

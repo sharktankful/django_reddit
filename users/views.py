@@ -12,7 +12,7 @@ from reddit.models import Submission
 from users.models import RedditUser
 from reddit.models import Comment
 
-
+@login_required
 def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     profile = RedditUser.objects.get(user=user)
