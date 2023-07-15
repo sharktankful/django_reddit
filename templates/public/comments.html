@@ -24,7 +24,7 @@
                 <br>
                 {{ submission.text }}
                 
-                <br>
+
                 {% if can_edit %}
                     <a href="{% url 'edit_submission' submission.id %}" style="color: grey; font-weight: bold">edit</a>
                 {% endif %}
