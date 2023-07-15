@@ -87,20 +87,5 @@
         </div>
     </div>
 
-    fdfd
-    testing
-
-    {% for submission in profile.user.submissions %}
-        <div class="submission">
-            <a class="thread-title" href="{% url 'thread' submission.id %}">{{ submission.title }}</a>
-            submitted {{ submission.timestamp|naturaltime }}
-            <ul>
-                {% for comment in submission.comments.all %}
-                    <li>{{ comment.text }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endfor %}
-
 
 {% endblock %}
