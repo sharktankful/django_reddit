@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseBadRequest, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
 
 from reddit.forms import UserForm, ProfileForm
 from reddit.utils.helpers import post_only
+from reddit.models import Submission
 from users.models import RedditUser
 
 
@@ -14,7 +16,18 @@ def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     profile = RedditUser.objects.get(user=user)
 
-    return render(request, 'public/profile.html', {'profile': profile})
+    reddit_user = None
+    if request.user.is_authenticated:
+        reddit_user = request.user.reddituser
+
+    submission = Submission.objects.filter(author=reddit_user)
+
+    context = {
+        'submissions': submission,
+        'profile': profile
+    }
+
+    return render(request, 'public/profile.html', context)
 
 
 @login_required

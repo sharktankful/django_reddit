@@ -86,6 +86,20 @@
             </div>
         </div>
     </div>
+    <div>
+        <h3>Submissions</h3>
+        {% for submission in submissions %}
+            <a href="{% url 'thread' submission.id %}"> {{ submission.title }} </a>
+            <br>
+            submitted {{ submission.timestamp|naturaltime }}
+            <br>
+        {% endfor %}
+
+        <h3>Comments</h3>
+        
+        {% endfor %}
+
+    </div>
 
 
 {% endblock %}
