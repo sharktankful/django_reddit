@@ -10,6 +10,7 @@ from reddit.forms import UserForm, ProfileForm
 from reddit.utils.helpers import post_only
 from reddit.models import Submission
 from users.models import RedditUser
+from reddit.models import Comment
 
 
 def user_profile(request, username):
@@ -21,10 +22,12 @@ def user_profile(request, username):
         reddit_user = request.user.reddituser
 
     submission = Submission.objects.filter(author=reddit_user)
+    comments = Comment.objects.filter(author=reddit_user)
 
     context = {
         'submissions': submission,
-        'profile': profile
+        'profile': profile,
+        'comments': comments
     }
 
     return render(request, 'public/profile.html', context)

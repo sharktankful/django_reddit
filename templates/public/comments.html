@@ -21,7 +21,13 @@
         <div class="media-body">
             <div class="reply-container">
                 <a class="thread-title" href="{{ submission.linked_url }}">{{ submission.title }}</a>
+                
                 <br>
+                {% if can_edit %}
+                    <a href="{% url 'edit_submission' submission.id %}"><strong>Edit</strong></a>
+                {% endif %}
+                <br>
+
                 {% if submission.url %}
                     <a href="{{ submission.linked_url }}">{{ submission.url }}</a>
                 {% endif %}

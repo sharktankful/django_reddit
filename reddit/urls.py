@@ -23,5 +23,6 @@ urlpatterns = [
     path('submit/', views.submit, name="submit"),
     path('post/comment/', views.post_comment, name="post_comment"),
     path('vote/', views.vote, name="vote"),
+    path('edit/<int:submission_id>/', views.edit_submission, name='edit_submission')
 
 ]

@@ -14,6 +14,7 @@ from reddit.utils.helpers import post_only
 from users.models import RedditUser
 
 
+
 @register.filter
 def get_item(dictionary, key):  # pragma: no cover
     """
@@ -63,56 +64,56 @@ def frontpage(request):
 
 
 def comments(request, thread_id=None):
-    """
-    Handles comment view when user opens the thread.
-    On top of serving all comments in the thread it will
-    also return all votes user made in that thread
-    so that we can easily update comments in template
-    and display via css whether user voted or not.
-
-    :param thread_id: Thread ID as it's stored in database
-    :type thread_id: int
-    """
 
     this_submission = get_object_or_404(Submission, id=thread_id)
 
     thread_comments = Comment.objects.filter(submission=this_submission)
-
-    if request.user.is_authenticated:
-            reddit_user = RedditUser.objects.get(user=request.user)
-    else:
-        reddit_user = None
     
     sub_vote_value = None
     comment_votes = {}
 
-    if reddit_user:
 
-        try:
-            vote = Vote.objects.get(
-                vote_object_type=this_submission.get_content_type(),
-                vote_object_id=this_submission.id,
-                user=reddit_user)
-            sub_vote_value = vote.value
-        except Vote.DoesNotExist:
-            pass
+    if request.user.is_authenticated and request.user == this_submission.author.user:
+        context = {
+          'submission': this_submission,
+          'comments': thread_comments,
+          'comment_votes': comment_votes,
+          'sub_vote': sub_vote_value,
+          'can_edit': True,
+        }
+    else:
+        context = {
+          'submission': this_submission,
+          'comments': thread_comments,
+          'comment_votes': comment_votes,
+          'sub_vote': sub_vote_value,
+          'can_edit': False,
+        }
 
-        try:
-            user_thread_votes = Vote.objects.filter(user=reddit_user,
-                                                    submission=this_submission)
+    return render(request, 'public/comments.html', context)
 
-            for vote in user_thread_votes:
-                comment_votes[vote.vote_object.id] = vote.value
+def edit_submission(request, submission_id):
+    submission = get_object_or_404(Submission, id=submission_id)
 
-        except:
-            pass
+    # Check if the user is the author of the submission
+    if request.user != submission.author.user:
+        return redirect('public:comments', thread_id=submission.id)
+    
+    if request.method == 'POST':
+        form = SubmissionForm(request.POST, instance=submission)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Submission edited successfully")
+            return redirect('thread', thread_id=submission_id)
+    else:
+        form = SubmissionForm(instance=submission)
 
-    return render(request, 'public/comments.html',
-                  {'submission'   : this_submission,
-                   'comments'     : thread_comments,
-                   'comment_votes': comment_votes,
-                   'sub_vote'     : sub_vote_value})
+    context = {
+        'form': form,
+        'submission': submission,
+    }
 
+    return render(request, 'private/edit_post.html', context)
 
 @post_only
 def post_comment(request):

@@ -87,7 +87,7 @@
         </div>
     </div>
     <div>
-        <h3>Submissions</h3>
+        <h3><strong>Submissions</strong></h3>
         {% for submission in submissions %}
             <a href="{% url 'thread' submission.id %}"> {{ submission.title }} </a>
             <br>
@@ -95,9 +95,12 @@
             <br>
         {% endfor %}
 
-        <h3>Comments</h3>
-        
+        <h3><strong>Comments</strong></h3>
+        {% for comment in comments %}
+            <p>{{ comment.raw_comment }}</p>
+            posted {{ comment.timestamp|naturaltime }}
         {% endfor %}
+
 
     </div>
 
