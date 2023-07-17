@@ -21,8 +21,10 @@
         <div class="media-body">
             <div class="reply-container">
                 <a class="thread-title" href="{{ submission.linked_url }}">{{ submission.title }}</a>
-                <br>
-                {{ submission.text }}
+                {% if submission.text %}
+                    <br>
+                    {{ submission.text }}
+                {% endif %}
                 
                 <br>
                 {% if can_edit %}
