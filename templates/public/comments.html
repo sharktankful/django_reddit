@@ -24,7 +24,7 @@
                 <br>
                 {{ submission.text }}
                 
-
+                <br>
                 {% if can_edit %}
                     <a href="{% url 'edit_submission' submission.id %}" style="color: grey; font-weight: bold">edit</a>
                 {% endif %}
@@ -36,7 +36,7 @@
                 {% endif %}
                 <h6 class="thread-info">submitted {{ submission.timestamp|naturaltime }} by <a
                         href="/user/{{ submission.author_name }}">{{ submission.author_name }}</a></h6>
-                {{ submission.text_html|safe }}
+                
                 <ul class="buttons">
                     <li><a href="{{ submission.comments_url }}">{{ submission.comment_count }} comments</a></li>
                 </ul>
